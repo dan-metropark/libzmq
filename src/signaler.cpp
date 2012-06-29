@@ -238,12 +238,12 @@ int zmq::signaler_t::make_fdpair (fd_t *r_, fd_t *w_)
     //  two instances of the library don't accidentally create signaler
     //  crossing the process boundary.
     //  We'll use named event object to implement the critical section.
-    HANDLE sync = CreateEvent (NULL, FALSE, TRUE, "zmq-signaler-port-sync");
-    win_assert (sync != NULL);
+    //HANDLE sync = CreateEvent (NULL, FALSE, TRUE, "zmq-signaler-port-sync");
+    //win_assert (sync != NULL);
 
     //  Enter the critical section.
-    DWORD dwrc = WaitForSingleObject (sync, INFINITE);
-    zmq_assert (dwrc == WAIT_OBJECT_0);
+    //DWORD dwrc = WaitForSingleObject (sync, INFINITE);
+    //zmq_assert (dwrc == WAIT_OBJECT_0);
 
     //  Windows has no 'socketpair' function. CreatePipe is no good as pipe
     //  handles cannot be polled on. Here we create the socketpair by hand.
@@ -300,8 +300,8 @@ int zmq::signaler_t::make_fdpair (fd_t *r_, fd_t *w_)
     wsa_assert (rc != SOCKET_ERROR);
 
     //  Exit the critical section.
-    BOOL brc = SetEvent (sync);
-    win_assert (brc != 0);
+    //BOOL brc = SetEvent (sync);
+    //win_assert (brc != 0);
 
     return 0;
 
